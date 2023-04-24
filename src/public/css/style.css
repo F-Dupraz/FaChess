@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+body {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.Main-section {
+  width: 50%;
+  background-color: burlywood;
+}
+
+.Main-section header {
+  width: 100%;
+}
+
+.Main-section header h1 {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  color: #252525;
+}
+
+.Login-section {
+  width: 50%;
+  background-color: #FFFFFF;
+}
