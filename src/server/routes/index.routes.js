@@ -12,4 +12,9 @@ router.get('/', (req, res) => {
   res.sendFile(views + '/index.html');
 });
 
+// Send the register.html file to the register path
+router.get('/register', (req, res) => {
+  res.sendFile(views + '/register.html');
+});
+
 module.exports = router;
