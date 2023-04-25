@@ -4,26 +4,41 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Poppins:wght@500;600;700;800&family=Roboto+Slab:wght@300;400;500;900&family=Roboto:wght@300;400;500;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
   <title>FaChess</title>
 </head>
 <body>
-  <section class="Main-section">
-    <header>
-      <h1>FaChess</h1>
-    </header>
-    <main>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo delectus id, aperiam nihil voluptas sint iste cupiditate suscipit recusandae tenetur. Asperiores quis possimus iste, aut voluptatem reprehenderit nobis natus perferendis.
-      </p>
-    </main>
-  </section>
-  <section class="Login-section">
-    <form action="/" method="post">
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email_input" />
-    </form>
-  </section>
+  <div class="body">
+    <section class="Main-section">
+      <header class="Main-section__header">
+        <h1>FaChess</h1>
+      </header>
+      <main class="Main-section__main">
+        <p>
+          FaChess is a web application for playing chess online with other players from around the world. With an intuitive and user-friendly interface, the application allows users to connect and play real-time matches with their friends.
+        </p>
+      </main>
+    </section>
+    <section class="Login-section">
+      <form class="Login-section__form" action="/" method="post">
+        <h2>Log In</h2>
+        <div>
+          <label for="email">Email:</label> <br />
+          <input type="email" name="email" id="email_input" />
+        </div>
+        <div>
+          <label for="password">Password:</label> <br />
+          <input type="password" name="password" id="password_input" />
+        </div>
+        <input class="login-button" type="submit" value="Access" />
+        <p><a href="/register"><strong>Don't have an account?</strong></a></p>
+      </form>
+    </section>
+  </div>
+  <footer class="footer">Produced with love by duprazfabricio@gmail.com ❤</footer>
   <script src="js/static.js"></script>
 </body>
 </html>
