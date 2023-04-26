@@ -7,6 +7,9 @@ const cors = require('cors');
 
 require('dotenv').config();
 
+// Import the DB
+require('./db/index');
+
 // Import routes
 const router = require('./routes/index.routes');
 

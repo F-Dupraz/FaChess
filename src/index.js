@@ -15,5 +15,5 @@ app.listen(process.env.SERVER_PORT, () => {
 
 // Making sure the server is up
 app.on('listening', () => {
-  console.log(`\n  Server running at http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`)
+  console.log(`  Server running at http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`)
 });
