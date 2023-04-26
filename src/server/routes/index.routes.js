@@ -18,7 +18,7 @@ router.get('/register', (req, res) => {
 });
 
 // Send the userpage.html file to the user/uuid path
-router.get('/user/:uuid', (req, res) => {
+router.get('/userpage/', (req, res) => {
   res.sendFile(views + '/userpage.html');
 });
 

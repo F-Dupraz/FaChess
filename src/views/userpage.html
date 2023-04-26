@@ -8,9 +8,48 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Castoro+Titling&family=Poppins:wght@500;600;700;800&family=Roboto+Slab:wght@300;400;500;900&family=Roboto:wght@300;400;500;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/userpage-style.css" />
-  <title>User</title>
+  <title>Username</title>
 </head>
 <body>
-  
+  <header class="header">
+    <div class="header-title">
+      <h1>FaChess</h1>
+    </div>
+    <div class="header-user">
+      <p id="show-username"><strong>Fabricio</strong></p>
+      <div class="user-logout-div hide">
+        <p class="user-logout-div__p" id="Logout-button">Log Out</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="Board-section">
+      <div class="chessboard">.</div>
+    </section>
+    <section class="User-section">
+      <div class="user-stats-div">
+        <h3>Games played: <span class="games-played-stat">12</span> </h3>
+        <h3>Games wined: <span class="games-wined-stat">12</span> </h3>
+      </div>
+      <div class="user-friends-div">
+        <div class="friend-div">
+          <h3 class="friend-name">Lia.</h3> <span class="friend-connected online">Online</span>
+          <p>Games played: <span id="friend-games-played">4</span></p>
+          <button>Invitar</button>
+        </div>
+        <div class="friend-div">
+          <h3 class="friend-name">Frida.</h3> <span class="friend-connected online">Online</span>
+          <p>Games played: <span id="friend-games-played">4</span></p>
+          <button>Invitar</button>
+        </div>
+        <div class="friend-div">
+          <h3 class="friend-name">Fabri.</h3> <span class="friend-connected offline">Offline</span>
+          <p>Games played: <span id="friend-games-played">4</span></p>
+          <button>Invitar</button>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 </html>

@@ -1,5 +1,169 @@
-.body {
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+.header {
   width: 100vw;
-  height: 100vh;
-  background-color: brown;
+  height: 7.5vh;
+  background-color: #61a161;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .header-title {
+  margin-left: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.header .header-title h1 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #252525;
+}
+
+.header .header-user {
+  margin-right: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.header .header-user p {
+  font-family: 'Castoro Titling', 'Times New Roman', Times, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #1f1f1f;
+}
+
+.header .header-user .user-logout-div {
+  height: auto;
+  width: auto;
+  padding: 8px 12px;
+  position: fixed;
+  background-color: #A77EF9;
+  border: 2px solid #A77EF9;
+  border-radius: 5px;
+  color: #1f1f1f;
+  transition: 0.3s ease;
+}
+
+.header .header-user .user-logout-div:hover {
+  background-color: #e7e7e7;
+  border: 2px solid #A77EF9;
+  border-radius: 5px;
+  cursor: pointer;
+  color: #A77EF9;
+}
+
+.header .header-user .user-logout-div p {
+  font-family: 'Castoro Titling', 'Times New Roman', Times, serif;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+.show {
+  top: 1.75vh;
+  right: 18vw;
+}
+
+.hide {
+  top: -10vh;
+}
+
+.main {
+  width: 100vw;
+  height: 92.5vh;
+  border-top: 2px solid #252525;
+  display: flex;
+  align-items: center;
+}
+
+.Board-section {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #FCFCE2;
+}
+
+.chessboard {
+  width: 650px;
+  height: 650px;
+  background-color: #3d3d3d;
+}
+
+.User-section {
+  width: 25%;
+  height: 100%;
+  border-left: 2px solid #252525;
+  background-color: #6985ad;
+}
+
+.User-section .user-stats-div {
+  padding: 15px 37.5px;
+  border-bottom: 2px solid #252525;
+  margin: 25px 0px;
+}
+
+.User-section .user-stats-div h3 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.User-section .user-friends-div {
+  padding: 15px 37.5px;
+}
+
+.User-section .user-friends-div .friend-name {
+  margin-top: 20px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.User-section .user-friends-div .friend-connected {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.User-section .user-friends-div .online {
+  color: #005500;
+}
+
+.User-section .user-friends-div .offline {
+  color: #550000;
+}
+
+.User-section .user-friends-div p {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.User-section .user-friends-div button {
+  padding: 2px 16px;
+  background-color: #61498d;
+  color: #e7e7e7;
+  border: 2px solid #61498d;
+  border-radius: 4px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.User-section .user-friends-div button:hover {
+  background-color: #e7e7e7;
+  color: #3d3058;
+  border: 2px solid #61498d;
 }
