@@ -4,6 +4,7 @@ const { createServer } = require('http');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const passport = require('passport');
 
 require('dotenv').config();
 
@@ -41,6 +42,9 @@ function createServerApp() {
 
   // Suport cross-origin resourse sharing
   app.use(cors());
+
+  // Use the auth services
+  passport.use(require('./auth'));
 
   // Use router
   app.use(router);

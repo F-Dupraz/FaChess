@@ -12,32 +12,104 @@ const User = require('../db/models/user.model');
 // Creates the router
 const router = express.Router();
 
+// Finds all suers
+router.get('/', async (req, res, next) => {
+  try {
+    // Searchs all users in the DB
+    const users = await User.find();
+
+    res.status(200).json(users);
+  } catch (err) {
+    res.json(err);
+  }
+});
+
+// Finds a user by username
+router.get('/:username', async (req, res, next) => {
+  try {
+    // Require the data
+    const usernameParam = req.params.username;
+    // Searchs a user in the DB with this username
+    const user = await User.findOne({ username: usernameParam });
+    // If something was returned
+    if(user) {
+      res.status(200).json(
+        {
+          uuid: user.uuid,
+          username: user.username,
+          email: user.email,
+          gamesPlayed: user.gamesPlayed,
+          friends: user.friends
+        });
+    } else {
+      res.status(404).json(
+        {
+          "Error": "Username does not exists."
+        });
+    }
+  } catch (err) {
+    res.json(err);
+  }
+});
 // Creates a user
 router.post('/', async (req, res, next) => {
-  // Require the data
-  const userData = req.body;
+  try {
+    // Require the data
+    const userData = req.body;
+    // Creates the salts
+    const salts = await bcrypt.genSalt(10);
+    // Hashes the password
+    const hashedPassword = await bcrypt.hash(userData.password, salts);
+    // Creates a new User
+    const newUser = new User({
+      uuid: v4(),
+      username: userData.username,
+      email: userData.email,
+      password: hashedPassword,
+      gamesPlayed: 0,
+      country: userData.country,
+      city: userData.city,
+      friends: []
+    });
 
-  // Creates the salts
-  const salts = await bcrypt.genSalt(10);
-  // Hashes the password
-  const hashedPassword = await bcrypt.hash(userData.password, salts);
+    // Saves the new user
+    await newUser.save();
 
-  // Creates a new User
-  const newUser = new User({
-    uuid: v4(),
-    username: userData.username,
-    email: userData.email,
-    password: hashedPassword,
-    gamesPLayed: 0,
-    country: userData.country,
-    city: userData.city,
-    friends: []
-  });
+    res.status(201).json(newUser);
+  } catch(err) {
+    const validationError = err.name;
+    if(validationError == "ValidationError") {
+      res.status(400).json(
+        {
+          "Error": "Bad request. Missing arguments."
+        });
+    } else {
+      res.status(409).json(
+        {
+          "Error": "Username or email alredy in use."
+        });
+    }
+  }
+});
 
-  // Saves the new user
-  await newUser.save();
-
-  res.status(200).json(newUser);
+router.delete('/:username', async (req, res, next) => {
+  try {
+    // Require the data
+    const usernameParam = req.params.username;
+    // Delete the user
+    const deletedUser = await User.findOneAndDelete({ username: usernameParam });
+    // If something was returned
+    if(deletedUser) {
+      res.status(200).json({deletedUser: deletedUser.username});
+    } else {
+      res.status(404).json(
+        {
+          "Error": "Username does not exists."
+        });
+    }
+  } catch (err) {
+    res.json(err);
+  }
 });
 
 module.exports = router;

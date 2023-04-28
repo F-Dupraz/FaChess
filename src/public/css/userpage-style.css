@@ -69,11 +69,12 @@
 
 .show {
   top: 1.75vh;
-  right: 18vw;
+  right: 25vw;
 }
 
 .hide {
   top: -10vh;
+  right: 25vw;
 }
 
 .main {
