@@ -3,6 +3,7 @@ const showUsername = document.getElementById('show-username');
 const userLogoutDiv = document.querySelector('.user-logout-div');
 const logoutButton = document.getElementById('Logout-button');
 const gamesPlayed = document.querySelector('.games-played-stat');
+const userFriends = document.getElementById('user-friends-div');
 
 function getCookie(name) {
   const cookies = document.cookie.split(';');
@@ -29,9 +30,23 @@ window.addEventListener('load', async () => {
     }
   });
   const data = await response.json();
-  console.log(data);
   showUsername.innerHTML = `<strong>${data.username}</strong>`;
   gamesPlayed.textContent = data.gamesPlayed;
+  const friend = {
+    username: 'Fabricio',
+    gamesPlayed: 53,
+    isOnline: true
+  }
+  const friends = [friend, friend, friend, friend];
+  friends.forEach((i) => {
+    userFriends.innerHTML += `
+    <div class="friend-div">
+      <h3 class="friend-name">${i.username}</h3> <span class="friend-connected ${i.isOnline ? 'online' : 'offline'}">${i.isOnline ? 'Online' : 'Offline'}</span>
+      <p>Games played: <span id="friend-games-played">${i.gamesPlayed}</span></p>
+      <button>Invitar</button>
+    </div>
+    `;
+  });
 });
 
 showUsername.addEventListener('mouseover', () => {
