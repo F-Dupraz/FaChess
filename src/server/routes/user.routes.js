@@ -3,6 +3,9 @@ const express = require('express');
 // Imports the uuid module
 const { v4 } = require('uuid');
 
+// Imports the passport module
+const passport = require('passport');
+
 // Imports the bcrypt module
 const bcrypt = require('bcrypt');
 
@@ -13,44 +16,52 @@ const User = require('../db/models/user.model');
 const router = express.Router();
 
 // Finds all suers
-router.get('/', async (req, res, next) => {
-  try {
-    // Searchs all users in the DB
-    const users = await User.find();
+router.get('/all', passport.authenticate('jwt', {
+    session: false,
+  }),
+  async (req, res, next) => {
+    try {
+      // Searchs all users in the DB
+      const users = await User.find();
 
-    res.status(200).json(users);
-  } catch (err) {
-    res.json(err);
-  }
-});
-
-// Finds a user by username
-router.get('/:username', async (req, res, next) => {
-  try {
-    // Require the data
-    const usernameParam = req.params.username;
-    // Searchs a user in the DB with this username
-    const user = await User.findOne({ username: usernameParam });
-    // If something was returned
-    if(user) {
-      res.status(200).json(
-        {
-          uuid: user.uuid,
-          username: user.username,
-          email: user.email,
-          gamesPlayed: user.gamesPlayed,
-          friends: user.friends
-        });
-    } else {
-      res.status(404).json(
-        {
-          "Error": "Username does not exists."
-        });
+      res.status(200).json(users);
+    } catch (err) {
+      res.json(err);
     }
-  } catch (err) {
-    res.json(err);
   }
-});
+);
+
+// Finds a user by uuid
+router.get('/one', passport.authenticate('jwt', {
+    session: false,
+  }),
+  async (req, res, next) => {
+    try {
+      // Require the data
+      const uuidParam = req.user;
+      // Searchs a user in the DB with this uuid
+      const user = await User.findOne({ uuid: uuidParam });
+      // If something was returned
+      if(user) {
+        res.status(200).json(
+          {
+            uuid: user.uuid,
+            username: user.username,
+            email: user.email,
+            gamesPlayed: user.gamesPlayed,
+            friends: user.friends
+          });
+      } else {
+        res.status(404).json(
+          {
+            "Error": "Username does not exists."
+          });
+      }
+    } catch (err) {
+      res.json(err);
+    }
+  }
+);
 // Creates a user
 router.post('/', async (req, res, next) => {
   try {
@@ -92,24 +103,28 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.delete('/:username', async (req, res, next) => {
-  try {
-    // Require the data
-    const usernameParam = req.params.username;
-    // Delete the user
-    const deletedUser = await User.findOneAndDelete({ username: usernameParam });
-    // If something was returned
-    if(deletedUser) {
-      res.status(200).json({deletedUser: deletedUser.username});
-    } else {
-      res.status(404).json(
-        {
-          "Error": "Username does not exists."
-        });
+router.delete('/:uuid', passport.authenticate('jwt', {
+    session: false,
+  }),
+  async (req, res, next) => {
+    try {
+      // Require the data
+      const uuidParam = req.params.uuid;
+      // Delete the user
+      const deletedUser = await User.findOneAndDelete({ uuid: uuidParam });
+      // If something was returned
+      if(deletedUser) {
+        res.status(200).json({deletedUser: deletedUser.username});
+      } else {
+        res.status(404).json(
+          {
+            "Error": "User does not exists."
+          });
+      }
+    } catch (err) {
+      res.json(err);
     }
-  } catch (err) {
-    res.json(err);
   }
-});
+);
 
 module.exports = router;

@@ -23,10 +23,7 @@ router.get('/register',
 );
 
 // Send the userpage.html file to the user/uuid path
-router.get('/userpage', passport.authenticate('jwt', {
-    session: false,
-    failureRedirect: '/'
-  }),
+router.get('/userpage',
   (req, res) => {
     res.sendFile(views + '/userpage.html');
 });

@@ -3,8 +3,6 @@ const emailInput = document.getElementById('email_input');
 const passwordInput = document.getElementById('password_input');
 const button = document.getElementById('submit_button');
 
-console.log('Ey! 😃');
-
 button.addEventListener('click', async () => {
   console.log('Escuchando!');
   if(passwordInput.value && emailInput.value) {
@@ -16,8 +14,7 @@ button.addEventListener('click', async () => {
         },
         body: JSON.stringify({ email: emailInput.value, password: passwordInput.value })
       });
-      const data = await response.json();
-      window.location.href = 'http://localhost:3000/userpage';
+      response.ok ? window.location.replace('userpage') : false;
     } catch (err) {
       console.log(err);
     }
