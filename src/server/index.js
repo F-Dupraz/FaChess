@@ -44,7 +44,8 @@ function createServerApp() {
   app.use(cors());
 
   // Use the auth services
-  passport.use(require('./auth'));
+  passport.use(require('./auth/LocalStrategy'));
+  passport.use(require('./auth/JWTStrategy.js'));
 
   // Use router
   app.use(router);
