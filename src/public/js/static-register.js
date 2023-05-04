@@ -22,7 +22,7 @@ button.addEventListener('click', async () => {
   ) {
     const usernameTrimed = usernameInput.value.trim();
     if (usernameTrimed.includes(' ')) {
-      return alert('Username must not contain spaces');
+      return alert('Username must not contain spaces. 😬');
     }
     if (passwordInput.value == repeatedPasswordInput.value) {
       const response = await fetch('/api/v1/users', {
@@ -49,9 +49,9 @@ button.addEventListener('click', async () => {
           break;
       }
     } else {
-      alert('The passwords are not the same!');
+      alert('The passwords are not the same! 🧐');
     }
   } else {
-    alert('The inputs must not be empty!');
+    alert('The inputs must not be empty! 🤓');
   }
 });

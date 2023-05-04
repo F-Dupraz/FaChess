@@ -18,16 +18,16 @@ button.addEventListener('click', async () => {
           window.location.replace('userpage')
           break;
         case 401:
-          alert('Username or password are incorrect!');
+          alert('Username or password are incorrect! 😶');
           break;
         default:
-          alert('WTF did you just do?');
+          alert('WTF did you just do? 🤯');
           break;
       }
     } catch (err) {
       console.log(err);
     }
   } else {
-    alert('You must provide both password and email!');
+    alert('You must provide both password and email! 🙃');
   }
 });
