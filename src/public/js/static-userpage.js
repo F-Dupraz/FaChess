@@ -16,10 +16,6 @@ function getCookie(name) {
   return null;
 }
 
-//
-//----- Hacer dinámica la lista de amigos -----
-//
-
 window.addEventListener('load', async () => {
   const token = getCookie('session');
   const response = await fetch('/api/v1/users/one', {

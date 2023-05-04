@@ -16,9 +16,7 @@ const User = require('../db/models/user.model');
 const router = express.Router();
 
 // Finds all suers
-router.get('/all', passport.authenticate('jwt', {
-    session: false,
-  }),
+router.get('/all',
   async (req, res, next) => {
     try {
       // Searchs all users in the DB
@@ -79,7 +77,6 @@ router.post('/', async (req, res, next) => {
       password: hashedPassword,
       gamesPlayed: 0,
       country: userData.country,
-      city: userData.city,
       friends: []
     });
 

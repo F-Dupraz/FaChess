@@ -77,12 +77,25 @@ main {
 .Form-section__form input {
   width: 100%;
   padding: 8px 5px;
-  font-size: 12px;
+  font-size: 14px;
   border: 1px solid #5e5e5e; 
   border-radius: 12px;
 }
 
 .Form-section__form input:focus {
+  border: 2px solid #101010; 
+  border-radius: 8px;
+}
+
+.Form-section__form select {
+  width: 100%;
+  padding: 8px 5px;
+  font-size: 14px;
+  border: 1px solid #5e5e5e; 
+  border-radius: 12px;
+}
+
+.Form-section__form select:focus {
   border: 2px solid #101010; 
   border-radius: 8px;
 }

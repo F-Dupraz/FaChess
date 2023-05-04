@@ -28,24 +28,12 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  city: {
-    type: String,
-    required: true,
-  },
   friends: [
     {
       uuid: {
         type: String,
         required: true,
-      },
-      name: {
-        type: String,
-        required: true
-      },
-      gamesPlayed: {
-        type: Number,
-        required: false,
-      },
+      }
     }
   ]
 }, {

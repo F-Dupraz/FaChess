@@ -4,7 +4,6 @@ const passwordInput = document.getElementById('password_input');
 const button = document.getElementById('submit_button');
 
 button.addEventListener('click', async () => {
-  console.log('Escuchando!');
   if(passwordInput.value && emailInput.value) {
     try {
       const response = await fetch('/api/v1/auth/login', {
@@ -14,7 +13,17 @@ button.addEventListener('click', async () => {
         },
         body: JSON.stringify({ email: emailInput.value, password: passwordInput.value })
       });
-      response.ok ? window.location.replace('userpage') : false;
+      switch (response.status) {
+        case 200:
+          window.location.replace('userpage')
+          break;
+        case 401:
+          alert('Username or password are incorrect!');
+          break;
+        default:
+          alert('WTF did you just do?');
+          break;
+      }
     } catch (err) {
       console.log(err);
     }
