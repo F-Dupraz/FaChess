@@ -16,8 +16,10 @@ function getCookie(name) {
   return null;
 }
 
+const token = getCookie('session');
+token ? true : window.location.replace('/');
+
 window.addEventListener('load', async () => {
-  const token = getCookie('session');
   const response = await fetch('/api/v1/users/one', {
     method: 'GET',
     headers: {
@@ -57,6 +59,21 @@ showUsername.addEventListener('mouseout', () => {
   }, 3000);
 });
 
-logoutButton.addEventListener('click', () => {
-  console.log('Log out 😠');
+logoutButton.addEventListener('click', async () => {
+  const token = getCookie('session');
+  const response = await fetch('/api/v1/auth/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + token
+    }
+  })
+  switch (response.status) {
+    case 200:
+      window.location.replace('/');
+      break;
+    default:
+      alert('I do not know what happend. 😗');
+      break;
+  }
 });

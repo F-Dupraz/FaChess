@@ -39,4 +39,14 @@ router.post('/login',
   }
 );
 
+router.post('/logout', 
+  (req, res) => {
+    try {
+      res.clearCookie('session').status(200).send('Usuario desconectado exitosamente');
+    } catch (err) {
+      res.status(500).json({ 'Error': err });
+    }
+  }
+)
+
 module.exports = router;

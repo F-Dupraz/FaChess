@@ -3,6 +3,20 @@ const emailInput = document.getElementById('email_input');
 const passwordInput = document.getElementById('password_input');
 const button = document.getElementById('submit_button');
 
+function getCookie(name) {
+  const cookies = document.cookie.split(';');
+  for (let i = 0; i < cookies.length; i++) {
+    const cookie = cookies[i].trim();
+    if (cookie.startsWith(name + '=')) {
+      return cookie.substring(name.length + 1);
+    }
+  }
+  return null;
+}
+
+const token = getCookie('session');
+token ? window.location.replace('/userpage') : true;
+
 button.addEventListener('click', async () => {
   if(passwordInput.value && emailInput.value) {
     try {
@@ -15,7 +29,7 @@ button.addEventListener('click', async () => {
       });
       switch (response.status) {
         case 200:
-          window.location.replace('userpage')
+          window.location.replace('userpage');
           break;
         case 401:
           alert('Username or password are incorrect! 😶');
