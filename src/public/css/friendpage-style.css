@@ -1,0 +1,104 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+.header {
+  width: 100vw;
+  height: 7.5vh;
+  background-color: #61a161;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header .header-title {
+  margin-left: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.header .header-title h1 {
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #252525;
+}
+
+.header .header-user {
+  margin-right: 10%;
+  display: flex;
+  align-items: center;
+}
+
+.header .header-user p {
+  font-family: 'Castoro Titling', 'Times New Roman', Times, serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #1f1f1f;
+}
+
+.users-list_section {
+  width: 100vw;
+  height: 92.5vh;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #FCFCE2;
+  overflow: auto;
+}
+
+.users-list_section::-webkit-scrollbar {
+  width: 5px;
+  height: 20px;
+}
+
+.users-list_section .user-friend {
+  width: 30vw;
+  height: 15vh;
+  padding: 15px 20px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  background-color: #e7e7e7;
+  color: #1f1f1f;
+}
+
+.users-list_section .user-friend h3 {
+  margin-bottom: 5px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #252525;
+}
+
+.users-list_section .user-friend p {
+  font-family: 'Castoro Titling', 'Times New Roman', Times, serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1f1f1f;
+}
+
+.users-list_section .user-friend button {
+  margin-top: 10px;
+  margin-left: 2px;
+  padding: 2px 16px;
+  background-color: #A77EF9;
+  color: #e7e7e7;
+  border: 2px solid #A77EF9;
+  border-radius: 4px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.users-list_section .user-friend button:hover {
+  background-color: #e7e7e7;
+  color: #A77EF9;
+  border: 2px solid #A77EF9;
+}

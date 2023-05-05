@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-const passport = require('passport');
 
 // Creates the router
 const router = express.Router();
@@ -22,10 +21,16 @@ router.get('/register',
   }
 );
 
-// Send the userpage.html file to the user/uuid path
+// Send the userpage.html file to the userpage path
 router.get('/userpage',
   (req, res) => {
     res.sendFile(views + '/userpage.html');
+});
+
+// Send the friendpage.html file to the friendpage path
+router.get('/addfriend',
+  (req, res) => {
+    res.sendFile(views + '/friendpage.html');
 });
 
 module.exports = router;

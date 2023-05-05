@@ -33,6 +33,10 @@ const UserSchema = new Schema({
       uuid: {
         type: String,
         required: true,
+      },
+      username: {
+        type: String,
+        required: true,
       }
     }
   ]

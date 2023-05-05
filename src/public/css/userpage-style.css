@@ -105,6 +105,12 @@
   height: 100%;
   border-left: 2px solid #252525;
   background-color: #6985ad;
+  overflow: scroll;
+}
+
+.User-section::-webkit-scrollbar {
+  width: 5px;
+  height: 20px;
 }
 
 .User-section .user-stats-div {
@@ -118,8 +124,14 @@
   font-weight: 500;
 }
 
-.User-section .user-friends-div {
+.user-friends-div {
   padding: 15px 37.5px;
+  overflow: scroll;
+}
+
+.user-friends-div::-webkit-scrollbar {
+  width: 5px;
+  height: 20px;
 }
 
 .User-section .user-friends-div .friend-name {
@@ -150,6 +162,7 @@
 }
 
 .User-section .user-friends-div button {
+  margin-top: 8px;
   padding: 2px 16px;
   background-color: #61498d;
   color: #e7e7e7;

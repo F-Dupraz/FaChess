@@ -100,6 +100,38 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.patch('/', passport.authenticate('jwt', {
+    session: false,
+  }),
+  async (req, res, next) => {
+    try {
+      // Require the data
+      const data = req.body;
+      // Finds the user
+      const friendAdded = await User.findOne({ username: data.username });
+      if(friendAdded) {
+        // Require the user
+        const uuid = req.user;
+        // Finds the user
+        const user = await User.updateOne({ uuid: uuid }, {
+          $push: {
+            friends: { 
+              uuid: friendAdded.uuid,
+              username: friendAdded.username
+            }
+          }
+        });
+        await user.save();
+        res.status(204).json({ 'Message': 'Friend addded.' });
+      } else {
+        res.status(404).json({ 'Error': 'User not found' });
+      }
+    } catch(err) {
+      res.json(err);
+    }
+  }
+);
+
 router.delete('/:uuid', passport.authenticate('jwt', {
     session: false,
   }),
