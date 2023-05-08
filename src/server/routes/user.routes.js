@@ -132,9 +132,7 @@ router.patch('/', passport.authenticate('jwt', {
   }
 );
 
-router.delete('/:uuid', passport.authenticate('jwt', {
-    session: false,
-  }),
+router.delete('/:uuid',
   async (req, res, next) => {
     try {
       // Require the data

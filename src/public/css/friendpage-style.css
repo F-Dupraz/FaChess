@@ -82,7 +82,7 @@
   color: #1f1f1f;
 }
 
-.users-list_section .user-friend button {
+.users-list_section .user-friend .button {
   margin-top: 10px;
   margin-left: 2px;
   padding: 2px 16px;
@@ -97,8 +97,21 @@
   transition: 0.3s ease;
 }
 
-.users-list_section .user-friend button:hover {
-  background-color: #e7e7e7;
+.users-list_section .user-friend .button:hover {
+  background-color: #f5f5f5;
   color: #A77EF9;
   border: 2px solid #A77EF9;
+}
+
+.button_clicked {
+  margin-top: 10px;
+  padding: 2px 16px;;
+  background-color: #f5f5f5;
+  color: #A77EF9;
+  border: 2px solid #A77EF9;
+  border-radius: 4px;
+  font-family: 'Poppins', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
 }

@@ -5,6 +5,9 @@ const logoutButton = document.getElementById('Logout-button');
 const gamesPlayed = document.querySelector('.games-played-stat');
 const userFriends = document.getElementById('user-friends-div');
 
+// Initialises the socket
+const socket = io();
+
 function getCookie(name) {
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
@@ -14,6 +17,20 @@ function getCookie(name) {
     }
   }
   return null;
+}
+
+function handleAddFriend() {
+  window.location.replace('/addfriend');
+}
+
+function handleInvitation() {
+  const buttons = document.querySelector('.button');
+  socket.emit('message', {
+    message: 'Hi, world'
+  });
+  buttons.classList.remove('button');
+  buttons.classList.add('button_clicked');
+  buttons.innerText = 'Invited';
 }
 
 const token = getCookie('session');
@@ -28,6 +45,15 @@ window.addEventListener('load', async () => {
     }
   });
   const data = await response.json();
+  const friendRequests = await fetch('/api/v1/requests/one', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8'
+    },
+    body: JSON.stringify({ userUuid: data.uuid })
+  });
+  const friendRequestsRes = await friendRequests.json();
+  console.log(friendRequestsRes);
   showUsername.innerHTML = `<strong>${data.username}</strong>`;
   gamesPlayed.textContent = data.gamesPlayed;
   const friends = data.friends;
@@ -35,7 +61,7 @@ window.addEventListener('load', async () => {
     userFriends.innerHTML += `
     <div class="friend-div">
       <h3 class="friend-name">${i.username}</h3> <span class="friend-connected ${i.isOnline ? 'online' : 'offline'}">${i.isOnline ? 'Online' : 'Offline'}</span><br />
-      <button>Invitar</button>
+      <button class="button" onclick="handleInvitation()">Invite</button>
     </div>
     `;
   });

@@ -2,6 +2,8 @@ require('dotenv').config();
 
 const createServerApp = require('./server');
 
+const websockets = require('./server/websockets');
+
 const app = createServerApp();
 
 // Running the server on port
@@ -17,3 +19,5 @@ app.listen(process.env.SERVER_PORT, () => {
 app.on('listening', () => {
   console.log(`  Server running at http://${process.env.SERVER_HOST}:${process.env.SERVER_PORT}`)
 });
+
+websockets(app);
