@@ -4,6 +4,7 @@ const userLogoutDiv = document.querySelector('.user-logout-div');
 const logoutButton = document.getElementById('Logout-button');
 const gamesPlayed = document.querySelector('.games-played-stat');
 const userFriends = document.getElementById('user-friends-div');
+const mainUserSection = document.querySelector('.main');
 
 // Initialises the socket
 const socket = io();
@@ -21,6 +22,13 @@ function getCookie(name) {
 
 function handleAddFriend() {
   window.location.replace('/addfriend');
+}
+
+function handleAccept(newFriend) {
+  console.log(newFriend);
+  const friendRequestSection = document.querySelector('.friend-request-section__div');
+  friendRequestSection.classList.remove('friend-request-section');
+  friendRequestSection.classList.add('friend-request-section__div-ready');
 }
 
 function handleInvitation() {
@@ -50,10 +58,32 @@ window.addEventListener('load', async () => {
     headers: {
       'Content-Type': 'application/json; charset=utf-8'
     },
-    body: JSON.stringify({ userUuid: data.uuid })
+    body: JSON.stringify({ userUsername: data.username })
   });
   const friendRequestsRes = await friendRequests.json();
   console.log(friendRequestsRes);
+  //
+  //----- ARREGLAR EL PROBLEMA DE LOS INNER
+  //
+  if(friendRequestsRes.length) {
+    friendRequestsRes.forEach((u) => {
+      console.log(u);
+      mainUserSection.innerHTML += `
+        <section class="friend-request-section">
+          <div class="friend-request-section__div">
+            <p class="username-friend">${u.from}</p>
+            <p class="friend-request-message">Sended you a friend request.</p>
+            <button
+              id="accept-invitation"
+              onclick="handleAccept('${u.from}')" >
+                Accept
+              </button>
+            <button id="reject-invitation">Reject</button>
+          </div>
+        </section>
+      `;
+    });
+  }
   showUsername.innerHTML = `<strong>${data.username}</strong>`;
   gamesPlayed.textContent = data.gamesPlayed;
   const friends = data.friends;

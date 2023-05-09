@@ -24,9 +24,9 @@ router.get('/all',
 router.post('/one',
   async (req, res, next) => {
     try {
-      const userUuid = req.body.userUuid;
+      const userUsername = req.body.userUsername;
       // Searchs a request in the DB with this uuid
-      const friendRequest = await FriendRequest.find({ status: true, to: userUuid });
+      const friendRequest = await FriendRequest.find({ status: true, to: userUsername });
       // If something was returned
       if(friendRequest) {
         res.status(200).json(friendRequest);

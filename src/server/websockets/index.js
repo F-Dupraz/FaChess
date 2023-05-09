@@ -14,13 +14,14 @@ module.exports = (httpServer) => {
       socket.join(data);
     });
     socket.on('addFriendRequest', async (data) => {
+      console.log(data);
       socket.to(data.userUuid).emit('friendRequest', {
-        userUuid: data.fromUuid,
+        userUuid: data.fromUsername,
         userUsername: data.fromUsername
       });
       const newFriendRequest = await new FriendRequest({
-        from: data.fromUuid,
-        to: data.toUuid
+        from: data.fromUsername,
+        to: data.toUsername
       });
       await newFriendRequest.save();
     });
