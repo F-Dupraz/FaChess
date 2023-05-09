@@ -3,6 +3,9 @@ const express = require('express');
 // Imports the FriendRequest module
 const FriendRequest = require('../db/models/friendRequest.model');
 
+// Imports the User module
+const User = require('../db/models/user.model');
+
 // Creates the router
 const router = express.Router();
 
@@ -65,6 +68,43 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+router.patch('/addFriend',
+  async (req, res, next) => {
+    try {
+      // Require the data
+      const data = req.body;
+      console.log(data);
+      // Finds the request
+      const friendRequest = await FriendRequest.updateOne({ status: true, to: data.to, from: data.from }, {
+        status: false
+      });
+
+      const userFrom = await User.updateOne({ username: data.from }, {
+        $push: {
+          friends: {
+            username: data.to
+          }
+        }
+      });
+      const userTo = await User.updateOne({ username: data.to }, {
+        $push: {
+          friends: {
+            username: data.from
+          }
+        }
+      });
+
+      await friendRequest.save();
+      await userFrom.save();
+      await userTo.save();
+
+      res.status(204).json(friendRequest);
+    } catch(err) {
+      res.json(err);
+    }
+  }
+);
+
 router.patch('/',
   async (req, res, next) => {
     try {
@@ -72,7 +112,7 @@ router.patch('/',
       const data = req.body;
       // Finds the request
       const friendRequest = await FriendRequest.findOne({ status: true, to: data.to });
-      
+
       await friendRequest.save();
 
       res.status(204).json(friendRequest);

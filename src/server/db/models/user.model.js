@@ -30,10 +30,6 @@ const UserSchema = new Schema({
   },
   friends: [
     {
-      uuid: {
-        type: String,
-        required: true,
-      },
       username: {
         type: String,
         required: true,

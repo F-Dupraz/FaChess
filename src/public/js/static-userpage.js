@@ -24,13 +24,6 @@ function handleAddFriend() {
   window.location.replace('/addfriend');
 }
 
-function handleAccept(newFriend) {
-  console.log(newFriend);
-  const friendRequestSection = document.querySelector('.friend-request-section__div');
-  friendRequestSection.classList.remove('friend-request-section');
-  friendRequestSection.classList.add('friend-request-section__div-ready');
-}
-
 function handleInvitation() {
   const buttons = document.querySelector('.button');
   socket.emit('message', {
@@ -62,27 +55,25 @@ window.addEventListener('load', async () => {
   });
   const friendRequestsRes = await friendRequests.json();
   console.log(friendRequestsRes);
-  //
-  //----- ARREGLAR EL PROBLEMA DE LOS INNER
-  //
   if(friendRequestsRes.length) {
-    friendRequestsRes.forEach((u) => {
-      console.log(u);
-      mainUserSection.innerHTML += `
-        <section class="friend-request-section">
-          <div class="friend-request-section__div">
-            <p class="username-friend">${u.from}</p>
-            <p class="friend-request-message">Sended you a friend request.</p>
-            <button
-              id="accept-invitation"
-              onclick="handleAccept('${u.from}')" >
-                Accept
-              </button>
-            <button id="reject-invitation">Reject</button>
-          </div>
-        </section>
-      `;
-    });
+    for(let i = 0; i < friendRequestsRes.length; i++) {
+      const friendNotification = friendRequestsRes[i];
+      console.log(friendNotification);
+      const confirmationValue = confirm(`${friendNotification.from} sended you a friend request!`);
+      if(confirmationValue) {
+        console.log(JSON.stringify({ from: friendNotification.from, to: friendNotification.to }))
+        const addFriendResponse = await fetch('/api/v1/requests/addFriend', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({ from: friendNotification.from, to: friendNotification.to })
+        })
+        console.log(await addFriendResponse.json());
+      } else {
+        console.log(`${friendNotification.from} is not your friend!`);
+      }
+    }
   }
   showUsername.innerHTML = `<strong>${data.username}</strong>`;
   gamesPlayed.textContent = data.gamesPlayed;
