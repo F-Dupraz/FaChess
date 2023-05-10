@@ -25,4 +25,15 @@ module.exports = (httpServer) => {
       await newFriendRequest.save();
     });
   });
+  io.of('/games').on('connection', (socket) => {
+    socket.on('joinMyRoom', (data) => {
+      socket.leaveAll();
+      socket.join(data);
+    });
+    socket.on('inviteFriend', (data) => {
+      socket.to(data.friendInvited).emit(data.message, {
+        user: data.user
+      });
+    });
+  });
 }

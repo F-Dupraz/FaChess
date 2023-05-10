@@ -23,14 +23,6 @@ token ? true : window.location.replace('/');
 
 function sendEmailToUser(clientUuid, clientUsername, userUuid, userUsername) {
   const buttons = document.querySelector('.button');
-  console.log(
-    {
-      fromUuid: clientUuid,
-      fromUsername: clientUsername,
-      toUuid: userUuid,
-      toUsername: userUsername
-    }
-  )
   userNamespace.emit('addFriendRequest', {
     fromUuid: clientUuid,
     fromUsername: clientUsername,
@@ -57,7 +49,7 @@ window.addEventListener('load', async () => {
     }
   });
   const user = await responseOne.json();
-  userNamespace.emit('joinMyRoom', user.uuid);
+  userNamespace.emit('joinMyRoom', user.username);
   const allUsers = await responseAll.json();
   showUsername.innerHTML = `<strong>${user.username}</strong>`;
   allUsers.forEach(u => {

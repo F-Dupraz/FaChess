@@ -9,6 +9,12 @@ const mainUserSection = document.querySelector('.main');
 // Initialises the socket
 const socket = io();
 
+// Initialises the socket for games
+const gamesSocket = io('/games');
+
+// Initialises the socket on the users namespaces
+const userNamespace = io('/users');
+
 function getCookie(name) {
   const cookies = document.cookie.split(';');
   for (let i = 0; i < cookies.length; i++) {
@@ -24,10 +30,12 @@ function handleAddFriend() {
   window.location.replace('/addfriend');
 }
 
-function handleInvitation() {
+function handleInvitation(friendUsername, username) {
   const buttons = document.querySelector('.button');
-  socket.emit('message', {
-    message: 'Hi, world'
+  gamesSocket.emit('inviteFriend', {
+    friendInvited: friendUsername,
+    user: username,
+    message: 'gameRequest'
   });
   buttons.classList.remove('button');
   buttons.classList.add('button_clicked');
@@ -54,6 +62,8 @@ window.addEventListener('load', async () => {
     body: JSON.stringify({ userUsername: data.username })
   });
   const friendRequestsRes = await friendRequests.json();
+  gamesSocket.emit('joinMyRoom', data.username);
+  userNamespace.emit('joinMyRoom', data.username);
   if(friendRequestsRes.length) {
     for(let i = 0; i < friendRequestsRes.length; i++) {
       const friendNotification = friendRequestsRes[i];
@@ -84,10 +94,20 @@ window.addEventListener('load', async () => {
     userFriends.innerHTML += `
     <div class="friend-div">
       <h3 class="friend-name">${i.username}</h3> <span class="friend-connected ${i.isOnline ? 'online' : 'offline'}">${i.isOnline ? 'Online' : 'Offline'}</span><br />
-      <button class="button" onclick="handleInvitation()">Invite</button>
+      <button class="button" onclick="handleInvitation('${i.username}', '${data.username}')">Invite</button>
     </div>
     `;
   });
+});
+
+gamesSocket.on('gameRequest', (data) => {
+  const chessInvitation = confirm(`${data.user} invited you to play chess!`);
+  if(chessInvitation) {
+    const chessboard = document.querySelector('.chessboard');
+    chessboard.style = 'background-color: red';
+  } else {
+    alert('Auch');
+  }
 });
 
 showUsername.addEventListener('mouseover', () => {
