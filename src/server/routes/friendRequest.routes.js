@@ -73,7 +73,6 @@ router.patch('/addFriend',
     try {
       // Require the data
       const data = req.body;
-      console.log(data);
       // Finds the request
       const friendRequest = await FriendRequest.updateOne({ status: true, to: data.to, from: data.from }, {
         status: false
@@ -105,13 +104,13 @@ router.patch('/addFriend',
   }
 );
 
-router.patch('/',
+router.delete('/', 
   async (req, res, next) => {
     try {
       // Require the data
       const data = req.body;
       // Finds the request
-      const friendRequest = await FriendRequest.findOne({ status: true, to: data.to });
+      const friendRequest = await FriendRequest.deleteOne({ status: true, to: data.to, from: data.from });
 
       await friendRequest.save();
 
@@ -120,6 +119,6 @@ router.patch('/',
       res.json(err);
     }
   }
-);
+)
 
 module.exports = router;

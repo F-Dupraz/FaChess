@@ -33,7 +33,6 @@ router.post('/login',
         }
       );
     } catch (err) {
-      console.log('ERROR', err);
       res.status(401).json(err);
     }
   }

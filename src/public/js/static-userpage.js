@@ -54,24 +54,26 @@ window.addEventListener('load', async () => {
     body: JSON.stringify({ userUsername: data.username })
   });
   const friendRequestsRes = await friendRequests.json();
-  console.log(friendRequestsRes);
   if(friendRequestsRes.length) {
     for(let i = 0; i < friendRequestsRes.length; i++) {
       const friendNotification = friendRequestsRes[i];
-      console.log(friendNotification);
       const confirmationValue = confirm(`${friendNotification.from} sended you a friend request!`);
       if(confirmationValue) {
-        console.log(JSON.stringify({ from: friendNotification.from, to: friendNotification.to }))
         const addFriendResponse = await fetch('/api/v1/requests/addFriend', {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json; charset=utf-8'
           },
           body: JSON.stringify({ from: friendNotification.from, to: friendNotification.to })
-        })
-        console.log(await addFriendResponse.json());
+        });
       } else {
-        console.log(`${friendNotification.from} is not your friend!`);
+        const dontAddFriendResponse = await fetch('/api/v1/requests/', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({ from: friendNotification.from, to: friendNotification.to })
+        });
       }
     }
   }

@@ -53,25 +53,44 @@ window.addEventListener('load', async () => {
   const allUsers = await responseAll.json();
   showUsername.innerHTML = `<strong>${user.username}</strong>`;
   allUsers.forEach(u => {
-    if(u.username === user.username) {
-      userListSection.innerHTML += ``;
+    if(u.username !== user.username) {
+      if(user.friends.length) {
+        user.friends.filter(user => {
+          if(user.username !== u.username) {
+            userListSection.innerHTML += `
+              <div class="user-friend">
+                <h3 class="user-friend_name">${u.username}</h3>
+                <p><strong>Games played: ${u.gamesPlayed}</strong></p>
+                <p><strong>Country: ${u.country}</strong></p>
+                <button 
+                  class="button" 
+                  onclick="sendEmailToUser('${user.uuid}', '${user.username}', '${u.uuid}', '${u.username}')">
+                    Add Friend
+                  </button>
+              </div>`;
+          } else {
+            userListSection.innerHTML += ``;
+          }
+        });
+      } else {
+        userListSection.innerHTML += `
+          <div class="user-friend">
+            <h3 class="user-friend_name">${u.username}</h3>
+            <p><strong>Games played: ${u.gamesPlayed}</strong></p>
+            <p><strong>Country: ${u.country}</strong></p>
+            <button 
+              class="button" 
+              onclick="sendEmailToUser('${user.uuid}', '${user.username}', '${u.uuid}', '${u.username}')">
+                Add Friend
+              </button>
+          </div>`;
+      }
     } else {
-      userListSection.innerHTML += `
-      <div class="user-friend">
-        <h3 class="user-friend_name">${u.username}</h3>
-        <p><strong>Games played: ${u.gamesPlayed}</strong></p>
-        <p><strong>Country: ${u.country}</strong></p>
-        <button 
-          class="button" 
-          onclick="sendEmailToUser('${user.uuid}', '${user.username}', '${u.uuid}', '${u.username}')">
-            Add Friend
-          </button>
-      </div>
-      `;
+      userListSection.innerHTML += ``;
     }
   });
 });
 
 userNamespace.on('friendRequest', (data) => {
-  console.log(data);
+  //
 });
