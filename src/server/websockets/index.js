@@ -36,4 +36,9 @@ module.exports = (httpServer) => {
       });
     });
   });
+  io.of('/chessGame').on('connection', (socket) => {
+    socket.on('piece_moved', (piece) => {
+      console.log(piece);
+    });
+  });
 }
