@@ -35,10 +35,11 @@ module.exports = (httpServer) => {
         user: data.user
       });
     });
-  });
-  io.of('/chessGame').on('connection', (socket) => {
-    socket.on('piece_moved', (piece) => {
-      console.log(piece);
+    socket.on('ChessGameStatus', (data) => {
+      socket.emit('ChessGameStatusRecived', {
+        pieces: data.pieces,
+        turn: data.turn
+      });
     });
   });
 }

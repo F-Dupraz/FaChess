@@ -1,9 +1,10 @@
-const chessGameSocket = io('/chessGame');
+const chessGameSocket = io('/games');
 
 class Game {
 
   // Creates the Game constructor
 	constructor(pieces) {
+		this.status = false;
 		this.board = document.getElementById('board');
 		this.squares = this.board.querySelectorAll('.square');
 		this.pieces = pieces;
@@ -14,6 +15,9 @@ class Game {
 	}
 
 	addEventListeners() {
+		// if(!this.status) {
+		// 	return false;
+		// }
     // Listens the events on the pieces
 		this.pieces.forEach( piece => {
 			piece.img.addEventListener("click", this.pieceMove.bind(this)); 
@@ -27,6 +31,17 @@ class Game {
 				event.preventDefault();
 			}); 
 			square.addEventListener("drop", this.movePiece.bind(this)); 
+		});
+		chessGameSocket.on('ChessGameStatusRecived', (data) => {
+			//
+			//       ----- RECIBIR LA INFORMACION Y 
+			// HACER QUE LAS PIEZAS GUARDEN SUS FUNCIONES -----// 
+			//
+			// this.pieces = data.pieces;
+			// this.turn = data.turn;
+			// console.log(data);
+			// console.log(this);
+			console.log('Piece was moved.');
 		});
 	}
 
@@ -235,13 +250,17 @@ class Game {
 				square.append(clickedPiece.img);
 				this.clearSquares();
 				this.changeTurn();
+				chessGameSocket.emit('ChessGameStatus', {
+					pieces: this.pieces,
+					turn: this.turn
+				});
         // Validates if the king is being checked
 				if (this.king_checked(this.turn)) {
 					if (this.king_dead(this.turn)) {
 						this.checkmate(clickedPiece.color);
 					}
 					else{
-						alert('check');
+						// alert('check');
 					}
 				}
 			}

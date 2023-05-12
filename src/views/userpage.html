@@ -25,7 +25,7 @@
 
   <main class="main">
     <section class="Board-section">
-      <div class="chessboard">
+      <div class="chessboard" id="board">
         <div id="final" class="odd">
           <div id="81" class="square" data-square="8-a">
             <img class="piece rook" id="blackRook1" src="img/blackRook.png">
@@ -178,11 +178,18 @@
       </div>
       <div class="user-friends-div" id="user-friends-div">
         <button class="Add-friend_button" onclick="handleAddFriend()">Add Friend</button>
-        <!-- Generado dinámicamente --> 
+        <!-- Generated dinamically --> 
       </div>
     </section>
   </main>
   <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/Piece.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/Pawn.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/Rook.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/Knight.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/King.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/Queen.js"></script>
+  <script type="text/javascript" src="js/gameLogic/pieces/Bishop.js"></script>
   <script type="text/javascript" src="js/gameLogic/index.js"></script>
   <script src="js/static-userpage.js"></script>
 </body>
