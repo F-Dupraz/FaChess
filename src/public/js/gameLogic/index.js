@@ -32,16 +32,13 @@ class Game {
 			}); 
 			square.addEventListener("drop", this.movePiece.bind(this)); 
 		});
+		// Listens the socket recived and sets the positions and turn
 		chessGameSocket.on('ChessGameStatusRecived', (data) => {
-			//
-			//       ----- RECIBIR LA INFORMACION Y 
-			// HACER QUE LAS PIEZAS GUARDEN SUS FUNCIONES -----// 
-			//
-			// this.pieces = data.pieces;
-			// this.turn = data.turn;
-			// console.log(data);
-			// console.log(this);
-			console.log('Piece was moved.');
+			this.pieces.position = data.pieces.position;
+			for(let i = 0; i < this.pieces.length; i++) {
+				this.pieces[i].position = data.pieces[i].position;
+			}
+			this.turn = data.turn;
 		});
 	}
 
