@@ -6,11 +6,16 @@ const FriendRequest = require('../db/models/friendRequest.model');
 // Imports the User module
 const User = require('../db/models/user.model');
 
+// Imports the passport module
+const passport = require('passport');
+
 // Creates the router
 const router = express.Router();
 
 // Finds all requests
-router.get('/all',
+router.get('/all', passport.authenticate('jwt', {
+    session: false,
+  }),
   async (req, res, next) => {
     try {
       // Searchs all requests in the DB
@@ -24,7 +29,9 @@ router.get('/all',
 );
 
 // Finds a request by to
-router.post('/one',
+router.post('/one', passport.authenticate('jwt', {
+    session: false,
+  }),
   async (req, res, next) => {
     try {
       const userUsername = req.body.userUsername;
@@ -46,29 +53,35 @@ router.post('/one',
 );
 
 // Modifies a request
-router.post('/', async (req, res, next) => {
-  try {
-    // Modifies the data
-    const requestData = req.body;
-    // Creates a new request
-    const newFriendRequest = new FriendRequest({
-      from: requestData.from,
-      to: requestData.to
-    });
-
-    // Saves the new request
-    await newFriendRequest.save();
-
-    res.status(201).json(newFriendRequest);
-  } catch(err) {
-    res.status(400).json(
-      {
-        "Error": "Bad request. Missing arguments."
+router.post('/', passport.authenticate('jwt', {
+    session: false,
+  }),
+  async (req, res, next) => {
+    try {
+      // Modifies the data
+      const requestData = req.body;
+      // Creates a new request
+      const newFriendRequest = new FriendRequest({
+        from: requestData.from,
+        to: requestData.to
       });
-  }
-});
 
-router.patch('/addFriend',
+      // Saves the new request
+      await newFriendRequest.save();
+
+      res.status(201).json(newFriendRequest);
+    } catch(err) {
+      res.status(400).json(
+        {
+          "Error": "Bad request. Missing arguments."
+        });
+    }
+  }
+);
+
+router.patch('/addFriend', passport.authenticate('jwt', {
+    session: false,
+  }),
   async (req, res, next) => {
     try {
       // Require the data
@@ -104,7 +117,9 @@ router.patch('/addFriend',
   }
 );
 
-router.delete('/', 
+router.delete('/', passport.authenticate('jwt', {
+    session: false,
+  }),
   async (req, res, next) => {
     try {
       // Require the data

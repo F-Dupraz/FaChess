@@ -16,7 +16,9 @@ const User = require('../db/models/user.model');
 const router = express.Router();
 
 // Finds all suers
-router.get('/all',
+router.get('/all', passport.authenticate('jwt', {
+    session: false,
+  }),
   async (req, res, next) => {
     try {
       // Searchs all users in the DB
@@ -100,39 +102,31 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.patch('/', passport.authenticate('jwt', {
+// Updates a user after a chess match
+router.patch('/gameover', passport.authenticate('jwt', {
     session: false,
   }),
   async (req, res, next) => {
     try {
-      // Require the data
-      const data = req.body;
+      // Require the user
+      const uuid = req.user;
       // Finds the user
-      const friendAdded = await User.findOne({ username: data.username });
-      if(friendAdded) {
-        // Require the user
-        const uuid = req.user;
-        // Finds the user
-        const user = await User.updateOne({ uuid: uuid }, {
-          $push: {
-            friends: { 
-              uuid: friendAdded.uuid,
-              username: friendAdded.username
-            }
-          }
-        });
-        await user.save();
-        res.status(204).json({ 'Message': 'Friend addded.' });
-      } else {
-        res.status(404).json({ 'Error': 'User not found' });
-      }
+      const userUpdated = await User.findOne({ uuid: uuid });
+      // Updates the user
+      userUpdated.gamesPlayed = userUpdated.gamesPlayed + 1;
+      // Saves the user in the DB
+      await userUpdated.save();
+      res.status(204).json({ 'Message': 'Friend addded.' });
     } catch(err) {
-      res.json(err);
+      res.status(500).json({ 'Error': err });
     }
   }
 );
 
-router.delete('/:uuid',
+// Deletes a user ny its uuid
+router.delete('/:uuid', passport.authenticate('jwt', {
+    session: false,
+  }),
   async (req, res, next) => {
     try {
       // Require the data

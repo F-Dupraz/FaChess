@@ -45,7 +45,8 @@ window.addEventListener('load', async () => {
   const responseAll = await fetch('/api/v1/users/all', {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json; charset=utf-8'
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + token
     }
   });
   const user = await responseOne.json();
@@ -91,8 +92,4 @@ window.addEventListener('load', async () => {
       userListSection.innerHTML += ``;
     }
   });
-});
-
-userNamespace.on('friendRequest', (data) => {
-  //
 });

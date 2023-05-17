@@ -33,9 +33,8 @@ function handleAddFriend() {
 function handleInvitation(friendUsername, username) {
   const buttons = document.querySelector('.button');
   gamesSocket.emit('inviteFriend', {
-    friendInvited: friendUsername,
+    friendInvited: username,
     user: username,
-    message: 'gameRequest'
   });
   buttons.classList.remove('button');
   buttons.classList.add('button_clicked');
@@ -57,7 +56,8 @@ window.addEventListener('load', async () => {
   const friendRequests = await fetch('/api/v1/requests/one', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json; charset=utf-8'
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + token
     },
     body: JSON.stringify({ userUsername: data.username })
   });
@@ -72,7 +72,8 @@ window.addEventListener('load', async () => {
         const addFriendResponse = await fetch('/api/v1/requests/addFriend', {
           method: 'PATCH',
           headers: {
-            'Content-Type': 'application/json; charset=utf-8'
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify({ from: friendNotification.from, to: friendNotification.to })
         });
@@ -80,7 +81,8 @@ window.addEventListener('load', async () => {
         const dontAddFriendResponse = await fetch('/api/v1/requests/', {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json; charset=utf-8'
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify({ from: friendNotification.from, to: friendNotification.to })
         });
@@ -98,16 +100,6 @@ window.addEventListener('load', async () => {
     </div>
     `;
   });
-});
-
-gamesSocket.on('gameRequest', (data) => {
-  const chessInvitation = confirm(`${data.user} invited you to play chess!`);
-  if(chessInvitation) {
-    const chessboard = document.querySelector('.chessboard');
-    chessboard.style = 'background-color: red';
-  } else {
-    alert('Auch');
-  }
 });
 
 showUsername.addEventListener('mouseover', () => {

@@ -8,16 +8,53 @@ class Game {
 		this.board = document.getElementById('board');
 		this.squares = this.board.querySelectorAll('.square');
 		this.pieces = pieces;
+		this.oponent = undefined;
 		this.turn = 'white';
+		this.myColor = undefined;
 		this.clickedPiece = null;
 		this.allowedMoves = null;
 		this.addEventListeners();
 	}
 
 	addEventListeners() {
-		// if(!this.status) {
-		// 	return false;
-		// }
+		chessGameSocket.on('gameRequest', (data) => {
+			const chessInvitation = confirm(`${data.user} invited you to play chess!`);
+			if(chessInvitation) {
+				chessGameSocket.emit('invitationAccepted', {
+					user: data.user,
+					invited: data.friendInvited,
+					status: true
+				});
+				this.oponent = data.user;
+				this.myColor = 'black';
+			} else {
+				alert('Auch!');
+			}
+		});
+		// Listents if the invitation is accepted 
+		chessGameSocket.on('joinTheChessMatch', (data) => {
+			if(!data.status) {
+				return;
+			}
+			this.oponent = data.invited;
+			// console.log(this.oponent);
+			this.myColor = data.color == 'white' ? 'black' : 'white';
+			// console.log(this.myColor);
+			this.status = true;
+		});
+		if(!this.status) {
+			return false;
+		}
+		chessGameSocket.on('gameOver', async (data) => {
+			const updateTheUser = await fetch('/api/v1/users/gameover', {
+				method: 'PATCH',
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8',
+          'Authorization': 'Bearer ' + token
+				}
+			});
+			alert(`${data.wins} wins!`);
+		});
     // Listens the events on the pieces
 		this.pieces.forEach( piece => {
 			piece.img.addEventListener("click", this.pieceMove.bind(this)); 
@@ -34,7 +71,6 @@ class Game {
 		});
 		// Listens the socket recived and sets the positions and turn
 		chessGameSocket.on('ChessGameStatusRecived', (data) => {
-			this.pieces.position = data.pieces.position;
 			for(let i = 0; i < this.pieces.length; i++) {
 				this.pieces[i].position = data.pieces[i].position;
 			}
@@ -157,7 +193,7 @@ class Game {
     // Sets the piece
 		const piece = this.getPieceByName(pieceName);
     // Validates the turn
-		if(this.turn == piece.color){
+		if(this.turn == piece.color && this.myColor == piece.color){
 			this.clearSquares();
 			this.setClickedPiece(piece);
 			if (event.type == 'dragstart') {
@@ -248,6 +284,7 @@ class Game {
 				this.clearSquares();
 				this.changeTurn();
 				chessGameSocket.emit('ChessGameStatus', {
+					oponent: this.oponent,
 					pieces: this.pieces,
 					turn: this.turn
 				});
@@ -356,10 +393,19 @@ class Game {
 		if (cllickedSquare) cllickedSquare.classList.remove('clicked-square');
 	}
 
-	checkmate(color){
-		const endScene = document.getElementById('endscene');
-		endScene.getElementsByClassName('winning-sign')[0].innerHTML = color + ' Wins';
-		endScene.classList.add('show');
+	async checkmate(color){
+		chessGameSocket.emit('checkmate', {
+			oponent: this.oponent,
+			wins: color
+		});
+		const updateTheUser = await fetch('/api/v1/users/gameover', {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8',
+				'Authorization': 'Bearer ' + token
+			}
+		});
+		alert(`${color} wins!`);
 	}
 }
 
