@@ -44,19 +44,17 @@ Este es un proyecto de una aplicación web para jugar al ajedrez en línea con a
 
 3. Instala las dependencias del proyecto ejecutando el siguiente comando en tu terminal:
 
+```
 npm install
-
-markdown
-Copy code
+```
 
 4. Configura las variables de entorno necesarias (como las credenciales de la base de datos y las claves secretas) en un archivo .env.
 
 5. Inicia el servidor ejecutando el siguiente comando en tu terminal:
 
+```
 npm run dev
-
-markdown
-Copy code
+```
 
 ## Contribución
 
