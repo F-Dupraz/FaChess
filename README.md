@@ -36,12 +36,6 @@ Este es un proyecto de una aplicación web para jugar al ajedrez en línea con a
 
 - HTML y CSS vanilla: se utiliza para crear la interfaz de usuario y el diseño visual de la aplicación.
 
-## Configuración y ejecución
-
-1. Clona el repositorio: `git clone https://github.com/tu-usuario/tu-repositorio.git`.
-2. Ve al directorio del proyecto: `cd tu-repositorio`.
-3. Instala las dependencias: `npm install`.
-
 ## Configuración
 
 1. Clona el repositorio o descarga los archivos del proyecto.
