@@ -20,7 +20,7 @@ function createServerApp() {
   // Create the http server
   const httpServer = createServer(app);
 
-  app.set('port', process.env.SERVER_PORT);
+  app.set('port', process.env.PORT);
 
   // Setting the views path
   app.set('views', __dirname + '/../views');
