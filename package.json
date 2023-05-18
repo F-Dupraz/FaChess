@@ -2,9 +2,10 @@
   "name": "fachess",
   "version": "1.0.0",
   "description": "A chess webapp build from scratch.",
-  "main": "src/index.js",
+  "main": "api/index.js",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
   },
   "author": "Fabricio Angel Dupraz <duprazfabricio@gmail.com>",
   "license": "ISC",
