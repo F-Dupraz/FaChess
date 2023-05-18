@@ -1,8 +1,8 @@
 require('dotenv').config();
 
-const createServerApp = require('./server');
+const createServerApp = require('./api/server');
 
-const websockets = require('./server/websockets');
+const websockets = require('./api/server/websockets');
 
 const app = createServerApp();
 
