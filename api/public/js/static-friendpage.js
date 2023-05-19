@@ -21,13 +21,18 @@ function getCookie(name) {
 const token = getCookie('session');
 token ? true : window.location.replace('/');
 
-function sendEmailToUser(clientUuid, clientUsername, userUuid, userUsername) {
+async function sendEmailToUser(clientUuid, clientUsername, userUuid, userUsername) {
   const buttons = document.querySelector('.button');
-  userNamespace.emit('addFriendRequest', {
-    fromUuid: clientUuid,
-    fromUsername: clientUsername,
-    toUuid: userUuid,
-    toUsername: userUsername
+  const responseFriend = await fetch('/api/v1/requests', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({ 
+      from: clientUsername,
+      to: userUsername
+    })
   });
   buttons.classList.remove('button');
   buttons.classList.add('button_clicked');
@@ -54,7 +59,7 @@ window.addEventListener('load', async () => {
   const allUsers = await responseAll.json();
   showUsername.innerHTML = `<strong>${user.username}</strong>`;
   allUsers.forEach(u => {
-    console.log(u);
+    // console.log(u);
     if(u.username !== user.username) {
       if(!user.friends.length) {
         userListSection.innerHTML += `
@@ -71,7 +76,7 @@ window.addEventListener('load', async () => {
         return;
       }
       user.friends.filter(userNew => {
-        console.log(userNew);
+        // console.log(userNew);
         if(userNew.username !== u.username) {
           userListSection.innerHTML += `
             <div class="user-friend">
