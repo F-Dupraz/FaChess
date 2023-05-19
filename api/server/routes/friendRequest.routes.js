@@ -19,7 +19,7 @@ router.get('/all', passport.authenticate('jwt', {
   async (req, res, next) => {
     try {
       // Searchs all requests in the DB
-      const requests = await FriendRequest.find();
+      const requests = await FriendRequest.find().select('status from to').lean();
 
       res.status(200).json(requests);
     } catch (err) {
@@ -34,9 +34,9 @@ router.post('/one', passport.authenticate('jwt', {
   }),
   async (req, res, next) => {
     try {
-      const userUsername = req.body.userUsername;
+      const { to } = req.body;
       // Searchs a request in the DB with this uuid
-      const friendRequest = await FriendRequest.find({ status: true, to: userUsername });
+      const friendRequest = await FriendRequest.find({ status: true, to: to }).lean();
       // If something was returned
       if(friendRequest) {
         res.status(200).json(friendRequest);
@@ -52,7 +52,7 @@ router.post('/one', passport.authenticate('jwt', {
   }
 );
 
-// Modifies a request
+// Makes a request
 router.post('/', passport.authenticate('jwt', {
     session: false,
   }),

@@ -22,7 +22,7 @@ router.get('/all', passport.authenticate('jwt', {
   async (req, res, next) => {
     try {
       // Searchs all users in the DB
-      const users = await User.find();
+      const users = await User.find().select('username email country gamesPlayed').lean();
 
       res.status(200).json(users);
     } catch (err) {
@@ -40,17 +40,10 @@ router.get('/one', passport.authenticate('jwt', {
       // Require the data
       const uuidParam = req.user;
       // Searchs a user in the DB with this uuid
-      const user = await User.findOne({ uuid: uuidParam });
+      const user = await User.findOne({ uuid: uuidParam }).select('uuid username email gamesPlayed friends').lean();
       // If something was returned
       if(user) {
-        res.status(200).json(
-          {
-            uuid: user.uuid,
-            username: user.username,
-            email: user.email,
-            gamesPlayed: user.gamesPlayed,
-            friends: user.friends
-          });
+        res.status(200).json(user);
       } else {
         res.status(404).json(
           {

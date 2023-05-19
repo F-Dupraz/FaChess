@@ -21,7 +21,7 @@ function getCookie(name) {
 const token = getCookie('session');
 token ? true : window.location.replace('/');
 
-async function sendEmailToUser(clientUuid, clientUsername, userUuid, userUsername) {
+async function sendEmailToUser(clientUsername, userUsername) {
   const buttons = document.querySelector('.button');
   const responseFriend = await fetch('/api/v1/requests', {
     method: 'POST',
@@ -39,7 +39,9 @@ async function sendEmailToUser(clientUuid, clientUsername, userUuid, userUsernam
   buttons.innerText = 'Invitation sended';
 }
 
+// Listens the window when loading
 window.addEventListener('load', async () => {
+  // Obtains the user data
   const responseOne = await fetch('/api/v1/users/one', {
     method: 'GET',
     headers: {
@@ -47,6 +49,7 @@ window.addEventListener('load', async () => {
       'Authorization': 'Bearer ' + token
     }
   });
+  // Obtains all users
   const responseAll = await fetch('/api/v1/users/all', {
     method: 'GET',
     headers: {
@@ -54,47 +57,37 @@ window.addEventListener('load', async () => {
       'Authorization': 'Bearer ' + token
     }
   });
+  // Parse it into json
   const user = await responseOne.json();
+  // Emits the socket for joining to my room
   userNamespace.emit('joinMyRoom', user.username);
+  // Parse all users into json
   const allUsers = await responseAll.json();
+  // Show the username in the section
   showUsername.innerHTML = `<strong>${user.username}</strong>`;
-  allUsers.forEach(u => {
-    // console.log(u);
-    if(u.username !== user.username) {
-      if(!user.friends.length) {
-        userListSection.innerHTML += `
-          <div class="user-friend">
-            <h3 class="user-friend_name">${u.username}</h3>
-            <p><strong>Games played: ${u.gamesPlayed}</strong></p>
-            <p><strong>Country: ${u.country}</strong></p>
-            <button 
-              class="button" 
-              onclick="sendEmailToUser('${user.uuid}', '${user.username}', '${u.uuid}', '${u.username}')">
-                Add Friend
-              </button>
-          </div>`;
-        return;
-      }
-      user.friends.filter(userNew => {
-        // console.log(userNew);
-        if(userNew.username !== u.username) {
-          userListSection.innerHTML += `
-            <div class="user-friend">
-              <h3 class="user-friend_name">${u.username}</h3>
-              <p><strong>Games played: ${u.gamesPlayed}</strong></p>
-              <p><strong>Country: ${u.country}</strong></p>
-              <button 
-                class="button" 
-                onclick="sendEmailToUser('${user.uuid}', '${user.username}', '${u.uuid}', '${u.username}')">
-                  Add Friend
-                </button>
-            </div>`;
-        } else {
-          userListSection.innerHTML += ``;
-        }
-      });
-    } else {
-      userListSection.innerHTML += ``;
+  // Filter the users
+  const allUsersExeptsFriends = allUsers.filter(u => {
+    if(u.username == user.username) {
+      return;
     }
+    const myFriends = user.friends.map(fr => fr.username);
+    if(myFriends.includes(u.username)) {
+      return;
+    }
+    return u;
+  });
+  // Writes the html for each one of the users filtered
+  allUsersExeptsFriends.forEach(u => {
+    userListSection.innerHTML += `
+      <div class="user-friend">
+        <h3 class="user-friend_name">${u.username}</h3>
+        <p><strong>Games played: ${u.gamesPlayed}</strong></p>
+        <p><strong>Country: ${u.country}</strong></p>
+        <button 
+          class="button" 
+          onclick="sendEmailToUser('${user.username}','${u.username}')">
+            Add Friend
+        </button>
+      </div>`;
   });
 });
