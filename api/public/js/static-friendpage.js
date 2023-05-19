@@ -1,5 +1,6 @@
 const userListSection = document.getElementById('users-list_section');
 const showUsername = document.getElementById('show-username');
+const goBackArrow = document.getElementById('go-back-arrow');
 
 // Initialises the socket
 const socket = io();
@@ -90,4 +91,8 @@ window.addEventListener('load', async () => {
         </button>
       </div>`;
   });
+});
+
+goBackArrow.addEventListener('click', () => {
+  window.location.replace('/userpage');
 });
